@@ -4,7 +4,6 @@
 int main(){
 
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Buck Hunter");
-
     Background background;
 
     while (window.isOpen())
