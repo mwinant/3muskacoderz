@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
+#include "background.h"
 
 int main(){
 
-    sf::RenderWindow window(sf::VideoMode(200, 200), "Big Buck Hunter");
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(640, 480), "Big Buck Hunter");
+    Background background;
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -13,7 +15,8 @@ int main(){
             window.close();
         }
     window.clear();
-    window.draw(shape);
+    window.draw(background.mSprite);
     window.display();
     }
     return 0;
+}
