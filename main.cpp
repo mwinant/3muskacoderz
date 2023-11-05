@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "background.h"
+#include "targets.h"
 
 
 int main()
@@ -7,7 +8,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Buck Hunter");
     Background background;
-
+    Deer deer;
     // hides system mouse cursor
     window.setMouseCursorVisible(false);
 
@@ -36,7 +37,11 @@ int main()
         window.clear();
         window.draw(background.mSprite);
         window.draw(reticle);
+        window.draw(deer.mDeer);
+        // deer.renderTarget();
         window.display();
+        // deer.update()
+        
     }
 
     return 0;
