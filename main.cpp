@@ -2,7 +2,10 @@
 #include "background.h"
 #include "targets.h"
 #include "extra.h"
-
+#include <iostream>
+#include <ctime>
+#include <sstream>
+#include <cstdlib>
 
 int main()
 {
@@ -10,6 +13,26 @@ int main()
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Buck Hunter");
     Background background;
     Deer deer;
+
+    //GAME CLOCK AND TIMER
+    sf::Clock clock;
+    int countdown = 30;
+
+    //CONVERT COUNTDOWN TO A STRING
+    std::string countdownString;
+    std::ostringstream convert;
+    convert << countdown;
+    countdownString = convert.str();
+
+    //LOAD TIMER FONT AND TEXT
+    sf::Text timerText;
+    sf::Font timerFont;
+    timerFont.loadFromFile("images/timerfont.ttf");
+    timerText.setFont(timerFont);
+    timerText.setString(countdownString);
+    timerText.setPosition(600,5); //TODO fix
+    timerText.setCharacterSize(40);
+
     // hides system mouse cursor
     window.setMouseCursorVisible(false);
 
@@ -35,6 +58,18 @@ int main()
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
         reticle.setPosition(static_cast<sf::Vector2f>(mousePosition));
 
+        //TIMER - 30 SECONDS
+        int timer = clock.getElapsedTime().asSeconds();
+
+        if (timer > 0) {
+            countdown--;
+            timerText.setString(std::to_string(countdown));
+            clock.restart();
+        }
+        // if(timer==0){
+        //     //go to gameover screen
+        // }
+
         window.clear();
         window.draw(background.mSprite);
 
@@ -50,6 +85,7 @@ int main()
         }
         
         window.draw(reticle);
+        window.draw(timerText);
         window.display();
     }
 
