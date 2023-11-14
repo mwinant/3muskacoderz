@@ -12,7 +12,7 @@ clean:
 	rm -f game *.o
 
 game: main.o background.o targets.o extraFunc.o
-	$(CC) $(FLAGS) $< background.o targets.o extraFunc.o -o $@ -lsfml-graphics -lsfml-window -lsfml-system
+	$(CC) $(FLAGS) $< background.o targets.o extraFunc.o -o $@ -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 main.o: background.h targets.h extra.h
 

@@ -51,17 +51,6 @@ int main()
     //play music
     music.mMusic.play();
 
-
-    
-    //change the mouse cursor to reticle
-    sf::Texture texture;
-    texture.loadFromFile("images/reticle.png");
-    sf::Sprite reticle(texture);
-    reticle.setOrigin(reticle.getLocalBounds().width / 2, reticle.getLocalBounds().height / 2);
-
-    // sets scale of reticle to be smaller
-    float scaleFactor = .25f; 
-    reticle.setScale(scaleFactor, scaleFactor);
     bool deerHit = false; //Checks if the deer has been hit. Temporary
     while (window.isOpen())
     {
@@ -120,7 +109,6 @@ int main()
             //Render deer dying and display that instead if the deer gets hit
         }
         
-        window.draw(reticle);
         window.draw(timerText);
         window.display();
     }
