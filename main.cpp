@@ -1,5 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "background.h"
+#include "coverArt.h"
+#include "gameover.h"
+#include "reticle.h"
 #include "targets.h"
 #include "extra.h"
 #include <iostream>
@@ -12,6 +15,9 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Buck Hunter");
     Background background;
+    Reticle reticle;
+    CoverArt coverArt;
+    GameOver gameOver;
     Deer deer;
 
     //GAME CLOCK AND TIMER
@@ -54,9 +60,14 @@ int main()
         {
             if (event.type == sf::Event::Closed)
             window.close();
+
+            // if (event.type == sf::Event::KeyPressed
+            //     && event.key.code == sf::Keyboard::Enter){
+            //     //close cover screen and start game
+            // }
         }
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-        reticle.setPosition(static_cast<sf::Vector2f>(mousePosition));
+        reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
 
         //TIMER - 30 SECONDS
         int timer = clock.getElapsedTime().asSeconds();
@@ -72,6 +83,16 @@ int main()
 
         window.clear();
         window.draw(background.mSprite);
+        window.draw(coverArt.deerSprite);
+        window.draw(coverArt.text);
+        window.draw(coverArt.text2);
+        window.draw(reticle.mSprite);
+
+        //Game Over Image
+        // window.draw(gameOver.sprite);
+        // window.draw(gameOver.sprite2);
+        // window.draw(gameOver.text);
+
 
         int rand_chance = randomNumber(0, 100); //Returns a 1-100
         if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
