@@ -3,6 +3,9 @@
 #include "coverArt.h"
 #include "gameover.h"
 #include "reticle.h"
+#include "music.h"
+#include "soundBuffer.h"
+#include "sound.h"
 #include "targets.h"
 #include "extra.h"
 #include <iostream>
@@ -16,8 +19,11 @@ int main()
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Buck Hunter");
     Background background;
     Reticle reticle;
+    Music music;
     CoverArt coverArt;
     GameOver gameOver;
+    SoundBuffer buffer;
+    Sound sound(buffer);
     Deer deer;
 
     //GAME CLOCK AND TIMER
@@ -41,6 +47,10 @@ int main()
 
     // hides system mouse cursor
     window.setMouseCursorVisible(false);
+    
+    //play music
+    music.mMusic.play();
+
 
     
     //change the mouse cursor to reticle
@@ -65,7 +75,12 @@ int main()
             //     && event.key.code == sf::Keyboard::Enter){
             //     //close cover screen and start game
             // }
+            // Mouse button pressed: play the sound
+            else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                sound.mSound.play();
+            }
         }
+        
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
         reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
 
