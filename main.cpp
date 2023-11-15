@@ -20,7 +20,7 @@ int main()
     TitleScreen titlescreen;
     GameLoopScreen gameloopscreen;
     GameOverScreen gameOverScreen;
-    titlescreen.active=true;
+    titlescreen.active=true; //sets titlescreen as first screen
     
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Elk Hunter");
     Reticle reticle;
@@ -31,7 +31,7 @@ int main()
     Timer timer;
 
     //FOR TIMER
-    int countdown = 30;
+    int countdown;
     //CONVERT COUNTDOWN TO A STRING
     std::string countdownString;
     std::ostringstream convert;
@@ -59,9 +59,10 @@ int main()
                 //close cover screen and start game
                 gameloopscreen.active=true;
                 titlescreen.active=false;
+                countdown=30;
             }
             // Mouse button pressed: play the sound
-            else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sound.mSound.play();
             }
         }
@@ -69,33 +70,41 @@ int main()
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
         reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
 
+        //CONTROLS TIMER
         int time=timer.clock.getElapsedTime().asSeconds();
         if (time > 0) {
             countdown--;
             timer.timerText.setString(std::to_string(countdown));
             timer.clock.restart();
         }
+        //CHANGES SCREEN FROM GAMELOOP TO GAMEOVER ONCE THE TIMER REACHES ZERO
+        if(countdown<=-1){
+            gameloopscreen.active=false;
+            gameOverScreen.active=true;   
+        } 
 
-        int rand_chance = randomNumber(0, 100); //Returns a 1-100
-        if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
-            deerHit = false;    //Resets if it's been hit so that the deer is rendered again
-            deer.newPosition(); //Sets a new random position for the deer
-        }
-        if(!deerHit){   //Renders the deer so long as it hasn't been shot
-            deer.renderTarget(window);  //Function to draw deer
-            deerHit = deer.isHit(window);   //Checks if deer has been hit
-            //Render deer dying and display that instead if the deer gets hit
-        }
-
+        //CONTROLS TITLE, GAMELOOP, AND GAMEOVER SCREENS
         window.clear();
-        if(titlescreen.active) titlescreen.draw(window);
+        if(titlescreen.active){
+            titlescreen.draw(window);
+        }
         else if(gameloopscreen.active){
             gameloopscreen.draw(window);
             window.draw(timer.timerText);
-        } 
-        
+            int rand_chance = randomNumber(0, 100); //Returns a 1-100
+            if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
+                deerHit = false;    //Resets if it's been hit so that the deer is rendered again
+                deer.newPosition(); //Sets a new random position for the deer
+            }
+            if(!deerHit){   //Renders the deer so long as it hasn't been shot
+                deer.renderTarget(window);  //Function to draw deer
+                deerHit = deer.isHit(window);   //Checks if deer has been hit
+                //Render deer dying and display that instead if the deer gets hit
+            }
+        }
         else if(gameOverScreen.active) gameOverScreen.draw(window);
         window.display();
+
     }
 
     return 0;
