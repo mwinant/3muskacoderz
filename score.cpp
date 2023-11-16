@@ -24,8 +24,29 @@ Score::Score(){
     scoreNameText.setPosition(475,3);
     scoreNameText.setCharacterSize(40);
     score = 0;
+    hits = 0;
+    shots = 0;
     scoreText.setString(std::to_string(score));
     scoreNameText.setString("Score:");
+
+    hitsText.setFont(scoreNameFont);
+    hitsText.setPosition(220, 280);
+    hitsText.setCharacterSize(70);
+    hitsText.setString("Hits:");
+
+    numHitsText.setFont(scoreFont);
+    numHitsText.setPosition(360, 282);
+    numHitsText.setCharacterSize(70);
+
+    shotsText.setFont(scoreNameFont);
+    shotsText.setPosition(220, 340);
+    shotsText.setCharacterSize(70);
+    shotsText.setString("Shots:");
+
+    numShotsText.setFont(scoreFont);
+    numShotsText.setPosition(360, 342);
+    numShotsText.setCharacterSize(70);
+
 }
 
 /**
@@ -37,6 +58,7 @@ void Score::updateScore(int amount){
     score = score + amount;
     hits++;
     scoreText.setString(std::to_string(score));
+    numHitsText.setString(std::to_string(hits));
 }
 
 /**
@@ -47,4 +69,44 @@ void Score::updateScore(int amount){
 void Score::renderScore(sf::RenderWindow& window){
     window.draw(scoreText);
     window.draw(scoreNameText);
+}
+
+
+void Score::renderEndScore(sf::RenderWindow& window){
+    window.draw(scoreText);
+    window.draw(scoreNameText);
+    window.draw(hitsText);
+    window.draw(numHitsText);
+    window.draw(shotsText);
+    window.draw(numShotsText);
+}
+
+/**
+ * @brief Changes the position of the score text
+ * 
+ * @param x x axis position
+ * @param y y axis position
+ */
+void Score::changePosition(int x, int y){
+    scoreNameText.setPosition(x,y);
+    scoreText.setPosition(x+140, y+2);
+}
+
+/**
+ * @brief Changes the character size of the score text
+ * 
+ * @param size size that it is being changed to
+ */
+void Score::changeSize(int size){
+    scoreNameText.setCharacterSize(size);
+    scoreText.setCharacterSize(size);
+}
+
+/**
+ * @brief Counts the number of times the player shoots
+ * 
+ */
+void Score::addShot(){
+    shots++;
+    numShotsText.setString(std::to_string(shots));
 }

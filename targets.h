@@ -28,7 +28,7 @@ public:
     Deer();
     ~Deer(){};
 
-    int gameLoop(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize, bool &deerHit);
+    int gameLoop(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize);
     void renderTarget(sf::RenderWindow& window);
     void renderHitText(sf::RenderWindow& window);
     bool moveDeer(sf::Vector2u& winSize);
@@ -48,10 +48,12 @@ private:
     int positionX,
         positionY,
         mAnimation,
+        yIncrement,
         mDirection; //1 means the deer moves to the right, 2 means the deer moves to the left
     sf::Vector2f mIncrement;
     sf::Text hitText;
     sf::Font hitFont;
+    bool mDeerHit;
 };
 
 
