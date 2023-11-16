@@ -76,8 +76,7 @@ int main()
             }
         }
         
-        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-        reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
+        
 
         //CONTROLS TIMER
         int time=timer.clock.getElapsedTime().asSeconds();
@@ -99,9 +98,15 @@ int main()
         }
         else if(gameloopscreen.active){
             gameloopscreen.draw(window);
+
+            //Takes position of mouse and draws the reticle over it.
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+            reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
+            reticle.renderReticle(window);
+
             window.draw(timer.timerText);
             score.renderScore(window);  //Calls function from class to render the score
-            if(hitTimer > 0){
+            if(hitTimer > 0){   //Displays the "HIT!" text so long as the hit timer is above 0.
                 deer.renderHitText(window);
                 hitTimer--;
             }
@@ -115,7 +120,7 @@ int main()
                 deer.renderTarget(window);  //Function to draw deer
                 deerHit = deer.isHit(window, score);   //Checks if deer has been hit
                 if(deerHit)
-                    hitTimer = 15;
+                    hitTimer = 30;  //Sets the hit "timer" to 30 so that it will display for 30 cycles of the game loop
                 score.renderScore(window);
                 //Render deer dying and display that instead if the deer gets hit
             }
