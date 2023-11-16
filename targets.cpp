@@ -11,7 +11,6 @@
 #include "targets.h"
 #include "extra.h"
 #include "score.h"
-#include <iostream>
 
 /**
  * @brief Construct a new Game:: Game object
@@ -58,7 +57,7 @@ Deer::Deer(){
 
 int Deer::gameLoop(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize){
     int hitTimer = 0;
-    int rand_chance = randomNumber(0, 100); //Returns a 1-100
+    int rand_chance = randomNumber(1, 100); //Returns a 1-100
     if(mDeerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
         mDeerHit = false;    //Resets if it's been hit so that the deer is rendered again
         newPosition(); //Sets a new random position for the deer
@@ -165,7 +164,6 @@ bool Deer::moveDeer(sf::Vector2u& winSize){
         }else{
             mIncrement = sf::Vector2f(NEG_INC, yIncrement);
         }
-        // offScreen = true;
     }else if((mDeer.getPosition().y + (spriteSize.y/ 2) > (winSize.y*1.7) && mIncrement.y > 0)){
         yIncrement = -1;
         if(mDirection == 1){
@@ -173,7 +171,6 @@ bool Deer::moveDeer(sf::Vector2u& winSize){
         }else{
             mIncrement = sf::Vector2f(NEG_INC, yIncrement);
         }
-        // offScreen = true;
     }
     mDeer.setPosition(mDeer.getPosition().x+mIncrement.x,mDeer.getPosition().y+mIncrement.y);
     if(mDirection == 1){

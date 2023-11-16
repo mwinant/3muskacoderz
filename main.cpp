@@ -121,43 +121,6 @@ int main()
                 hitTimer = deer4.gameLoop(window, score, winSize);
                 
             }
-            
-            //CURRENTLY WORKING TO SEE IF I CAN PUT ALL OF THE RENDERING OF DEER INTO A FUNCTION. DO NOT KNOW IF IT WILL WORK YET
-
-            // deer2.gameLoop(window, score, winSize, deerHit);
-            // deer3.gameLoop(window, score, winSize, deerHit);
-            // deer4.gameLoop(window, score, winSize, deerHit);
-            // deer5.gameLoop(window, score, winSize, deerHit);
-            // int rand_chance = randomNumber(0, 100); //Returns a 1-100
-            // if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
-            //     deerHit = false;    //Resets if it's been hit so that the deer is rendered again
-            //     deer.newPosition(); //Sets a new random position for the deer
-            // }
-            // if(!deerHit){   //Renders the deer so long as it hasn't been shot
-            //     deer.update(winSize);    //Function to update the deer. Thus far it only calls the moveDeer function.
-            //     deer.renderTarget(window);  //Function to draw deer
-            //     deerHit = deer.isHit(window, score);   //Checks if deer has been hit
-            //     if(deerHit)
-            //         hitTimer = 30;  //Sets the hit "timer" to 30 so that it will display for 30 cycles of the game loop
-            //     score.renderScore(window);
-            //     //Render deer dying and display that instead if the deer gets hit
-            // }
-
-            // rand_chance = randomNumber(0, 100); //Returns a 1-100
-            // if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
-            //     deerHit = false;    //Resets if it's been hit so that the deer is rendered again
-            //     deer1.newPosition(); //Sets a new random position for the deer
-            // }
-            // if(!deerHit){   //Renders the deer so long as it hasn't been shot
-            //     deer1.update(winSize);    //Function to update the deer. Thus far it only calls the moveDeer function.
-            //     deer1.renderTarget(window);  //Function to draw deer
-            //     deerHit = deer1.isHit(window, score);   //Checks if deer has been hit
-            //     if(deerHit)
-            //         hitTimer = 30;  //Sets the hit "timer" to 30 so that it will display for 30 cycles of the game loop
-            //     score.renderScore(window);
-            //     //Render deer dying and display that instead if the deer gets hit
-            // }
-
 
             //Takes position of mouse and draws the reticle over it.
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
