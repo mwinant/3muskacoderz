@@ -5,7 +5,7 @@ type 'make' into terminal to compile for non-mac
 then type ./game into terminal to run
 
 otherwise you can compile without the makefile using this:
-g++ -Wall -std=c++11 *.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system
+g++ -Wall -std=c++11 *.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 ## Summary of Game
 This game is inspired by the Big Buck Hunter Aracade Game. The player's objective is to shoot as many elk before the timer runs out. A score is kept of how many kills the player made. 

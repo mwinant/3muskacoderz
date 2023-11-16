@@ -23,12 +23,16 @@ int main()
     titlescreen.active=true; //sets titlescreen as first screen
     
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Elk Hunter");
+    sf::Vector2u winSize = window.getSize();
     Reticle reticle;
     Music music;
     SoundBuffer buffer;
     Sound sound(buffer);
     Deer deer;
     Timer timer;
+
+    //Sets framerate to 60fps
+    window.setFramerateLimit(60);
 
     //FOR TIMER
     int countdown;
@@ -97,7 +101,7 @@ int main()
                 deer.newPosition(); //Sets a new random position for the deer
             }
             if(!deerHit){   //Renders the deer so long as it hasn't been shot
-                deer.update(window);    //Function to update the deer. Thus far it only calls the moveDeer function.
+                deer.update(winSize);    //Function to update the deer. Thus far it only calls the moveDeer function.
                 deer.renderTarget(window);  //Function to draw deer
                 deerHit = deer.isHit(window);   //Checks if deer has been hit
                 //Render deer dying and display that instead if the deer gets hit

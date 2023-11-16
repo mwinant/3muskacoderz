@@ -15,6 +15,9 @@
 #include <cstdlib>
 #include <random>
 
+const int POS_INC = 5,
+        NEG_INC = -5;
+
 class Deer
 {
 public:
@@ -23,10 +26,11 @@ public:
 
     // void handleInput();
     void renderTarget(sf::RenderWindow& window);
-    void moveDeer(sf::RenderWindow& window);
+    bool moveDeer(sf::Vector2u& winSize);
     bool isHit(sf::RenderWindow& window);
     void newPosition();
-    void update(sf::RenderWindow& window);
+    void update(sf::Vector2u& winSize);
+    void changeDirection(bool random);
     
 
 private:
@@ -35,7 +39,7 @@ private:
     sf::Vector2u spriteSize;
     int positionX,
         positionY,
-        direction;
+        mDirection; //1 means the deer moves to the right, 2 means the deer moves to the left
     sf::Vector2f mIncrement;
 };
 

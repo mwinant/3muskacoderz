@@ -1,6 +1,6 @@
 #Macros
 CC = g++
-FLAGS = -Wall -std=c++11
+FLAGS = -Wall -g -std=c++11
 
 #Pattern Rule
 %.o: %.c
