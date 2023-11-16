@@ -11,12 +11,16 @@
 #ifndef TARGETS_H
 #define TARGETS_H
 #include <SFML/Graphics.hpp>
-#include <ctime>
 #include <cstdlib>
-#include <random>
+#include "score.h"
 
-const int POS_INC = 5,
-        NEG_INC = -5;
+const int POS_INC = 3,
+        NEG_INC = -3,
+        BODY_X_OFF = 5,
+        BODY_Y_OFF = 4,
+        HEAD_R_X_OFF = 12,
+        HEAD_L_X_OFF = 25,
+        HEAD_Y_OFF = 20;
 
 class Deer
 {
@@ -27,14 +31,17 @@ public:
     // void handleInput();
     void renderTarget(sf::RenderWindow& window);
     bool moveDeer(sf::Vector2u& winSize);
-    bool isHit(sf::RenderWindow& window);
+    bool isHit(sf::RenderWindow& window, Score &score);
     void newPosition();
     void update(sf::Vector2u& winSize);
     void changeDirection(bool random);
+    void updateAnimation();
     
 
 private:
     sf::Sprite mDeer;
+    sf::RectangleShape mBodyTarget;
+    sf::CircleShape mHeadTarget;
     sf::Texture mTexture;
     sf::Vector2u spriteSize;
     int positionX,

@@ -10,6 +10,7 @@
 #include "extra.h"
 #include "screen.h"
 #include "clock.h"
+#include "score.h"
 #include <iostream>
 #include <ctime>
 #include <sstream>
@@ -30,6 +31,7 @@ int main()
     Sound sound(buffer);
     Deer deer;
     Timer timer;
+    Score score;
 
     //Sets framerate to 60fps
     window.setFramerateLimit(60);
@@ -95,6 +97,7 @@ int main()
         else if(gameloopscreen.active){
             gameloopscreen.draw(window);
             window.draw(timer.timerText);
+            score.renderScore(window);  //Calls function from class to render the score
             int rand_chance = randomNumber(0, 100); //Returns a 1-100
             if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
                 deerHit = false;    //Resets if it's been hit so that the deer is rendered again
@@ -103,7 +106,8 @@ int main()
             if(!deerHit){   //Renders the deer so long as it hasn't been shot
                 deer.update(winSize);    //Function to update the deer. Thus far it only calls the moveDeer function.
                 deer.renderTarget(window);  //Function to draw deer
-                deerHit = deer.isHit(window);   //Checks if deer has been hit
+                deerHit = deer.isHit(window, score);   //Checks if deer has been hit
+                score.renderScore(window);
                 //Render deer dying and display that instead if the deer gets hit
             }
         }
