@@ -6,6 +6,7 @@ class Reticle{
 public:
     Reticle();
     ~Reticle(){};
+    void renderReticle(sf::RenderWindow& window);
     sf::Texture mTexture;
     sf::Sprite mSprite;
 };
