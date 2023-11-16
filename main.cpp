@@ -54,11 +54,6 @@ int main()
     //play music
     music.mMusic.play();
 
-    // bool deerHit = false, //Checks if the deer has been hit. Temporary
-    //     deerHit1 = false,
-    //     deerHit2 = false,
-    //     deerHit3 = false,
-    //     deerHit4 = false;
     while (window.isOpen())
     {
         sf::Event event;
@@ -72,7 +67,7 @@ int main()
                 //close cover screen and start game
                 gameloopscreen.active=true;
                 titlescreen.active=false;
-                countdown=30;
+                countdown=10;
             }
             // Mouse button pressed: play the sound
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -101,6 +96,9 @@ int main()
             titlescreen.draw(window);
         }
         else if(gameloopscreen.active){
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                score.addShot();
+            }
             gameloopscreen.draw(window);
             window.draw(timer.timerText);
             score.renderScore(window);  //Calls function from class to render the score
@@ -119,7 +117,6 @@ int main()
                 hitTimer = deer2.gameLoop(window, score, winSize);
                 hitTimer = deer3.gameLoop(window, score, winSize);
                 hitTimer = deer4.gameLoop(window, score, winSize);
-                
             }
 
             //Takes position of mouse and draws the reticle over it.
@@ -127,7 +124,12 @@ int main()
             reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
             reticle.renderReticle(window);
         }
-        else if(gameOverScreen.active) gameOverScreen.draw(window);
+        else if(gameOverScreen.active){
+            gameOverScreen.draw(window);
+            score.changePosition(220, 220);
+            score.changeSize(70);
+            score.renderEndScore(window);
+        } 
         window.display();
 
     }

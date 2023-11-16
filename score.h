@@ -20,14 +20,23 @@ public:
     ~Score(){};
     void updateScore(int amount);
     void renderScore(sf::RenderWindow& window);
+    void renderEndScore(sf::RenderWindow& window);
+    void changePosition(int x, int y);
+    void changeSize(int size);
+    void addShot();
     
 private:
     sf::Text scoreText;
     sf::Font scoreFont;
     sf::Text scoreNameText;
     sf::Font scoreNameFont;
-    int score;
-    int hits;
+    sf::Text hitsText;
+    sf::Text numHitsText;
+    sf::Text shotsText;
+    sf::Text numShotsText;
+    int score,  //Keeps track of score
+        hits,   //Keeps track of how many hits
+        shots;  //Keeps track of how many shots
 };
 
 
