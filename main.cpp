@@ -67,7 +67,7 @@ int main()
                 //close cover screen and start game
                 gameloopscreen.active=true;
                 titlescreen.active=false;
-                countdown=10;
+                countdown=30;
             }
             // Mouse button pressed: play the sound
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
