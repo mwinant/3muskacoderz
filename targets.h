@@ -39,6 +39,7 @@ private:
     sf::Vector2u spriteSize;
     int positionX,
         positionY,
+        mAnimation,
         mDirection; //1 means the deer moves to the right, 2 means the deer moves to the left
     sf::Vector2f mIncrement;
 };

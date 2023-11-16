@@ -33,6 +33,7 @@ Deer::Deer(){
     positionY = randomNumber(250, 440);
     mDeer.setPosition(positionX,positionY);
     mDeer.setScale(.1f, .1f);
+    mAnimation = 0;
 }
 
 /**
@@ -91,13 +92,13 @@ void Deer::update(sf::Vector2u& winSize){
 bool Deer::moveDeer(sf::Vector2u& winSize){
     bool offScreen = false;
     // sf::Vector2u winSize = window.getSize();
-    if ((mDeer.getPosition().x + (spriteSize.x/ 2) > (winSize.x*2)/* && mIncrement.x > 0*/)){
+    if ((mDeer.getPosition().x + (spriteSize.x/ 2) > (winSize.x*1.5)/* && mIncrement.x > 0*/)){
         mTexture.loadFromFile("images/PIX_deer_upright_Lface.png");
         mIncrement = sf::Vector2f(NEG_INC, NEG_INC);
         mDirection = 2;
         offScreen = true;
         std::cout<<"DEER IS OFF RIGHT SCREEN\n";
-    }else if((mDeer.getPosition().x - (spriteSize.x / 2) < 0/* && mIncrement.x < 0*/)){
+    }else if((mDeer.getPosition().x - (spriteSize.x / 2) < (winSize.x*-0.5)/* && mIncrement.x < 0*/)){
         mTexture.loadFromFile("images/PIX_deer_upright_Rface.png");
         mIncrement = sf::Vector2f(POS_INC, POS_INC);
         mDirection = 1;
