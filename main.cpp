@@ -97,6 +97,7 @@ int main()
                 deer.newPosition(); //Sets a new random position for the deer
             }
             if(!deerHit){   //Renders the deer so long as it hasn't been shot
+                deer.update(window);    //Function to update the deer. Thus far it only calls the moveDeer function.
                 deer.renderTarget(window);  //Function to draw deer
                 deerHit = deer.isHit(window);   //Checks if deer has been hit
                 //Render deer dying and display that instead if the deer gets hit

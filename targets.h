@@ -22,11 +22,11 @@ public:
     ~Deer(){};
 
     // void handleInput();
-    // void update();
     void renderTarget(sf::RenderWindow& window);
-    void moveDeer();
+    void moveDeer(sf::RenderWindow& window);
     bool isHit(sf::RenderWindow& window);
     void newPosition();
+    void update(sf::RenderWindow& window);
     
 
 private:
@@ -34,7 +34,9 @@ private:
     sf::Texture mTexture;
     sf::Vector2u spriteSize;
     int positionX,
-        positionY;
+        positionY,
+        direction;
+    sf::Vector2f mIncrement;
 };
 
 

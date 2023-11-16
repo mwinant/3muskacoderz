@@ -24,7 +24,8 @@ Deer::Deer(){
     positionY = randomNumber(250, 440);
     mDeer.setPosition(positionX,positionY);
     mDeer.setScale(.1f, .1f);
-    //mIncrement = sf::Vector2i(1, 1);
+    direction = randomNumber(0,1);
+    mIncrement = sf::Vector2f(1, 1);
 }
 
 /**
@@ -71,35 +72,22 @@ void Deer::renderTarget(sf::RenderWindow& window){
  * @brief Update objects in the scene
  * 
  */
-// void Deer::update()
-// {
-//     moveDeer();
-// }
+void Deer::update(sf::RenderWindow& window)
+{
+    moveDeer(window);
+}
 
 /**
  * @brief Moves the deer to update the scene. Calculates the direction to move the deer
  * 
  */
-// void Deer::moveDeer()
-// {
-//     sf::Vector2u winSize = mWindow.getSize();
-//     int cherryX = 62;
-//     int cherryY = 62;
-//     if ((mDeer.getPosition().x + (cherryX / 2) > winSize.x && mIncrement.x > 0) ||
-//     (mDeer.getPosition().x - (cherryX / 2) < 0 && mIncrement.x < 0))
-//     {
-//         // Reverse the direction on X axis
-//         mIncrement.x = -mIncrement.x;
-//     }
-//     if ((mDeer.getPosition().y + (cherryY / 2) > winSize.y && mIncrement.y > 0) ||
-//     (mDeer.getPosition().y - (cherryY / 2) < 0 && mIncrement.y < 0))
-//     {
-//         // Reverse the direction on Y axis.
-//         mIncrement.y = -mIncrement.y;
-//     }
-//     mDeer.setPosition(
-//         mDeer.getPosition().x + mIncrement.x,
-//         mDeer.getPosition().y + mIncrement.y);
-// }
+void Deer::moveDeer(sf::RenderWindow& window){
+    sf::Vector2u winSize = window.getSize();
+    if ((mDeer.getPosition().x + (spriteSize.x/ 2) > winSize.x && mIncrement.x > 0) ||
+    (mDeer.getPosition().x - (spriteSize.x / 2) < 0 && mIncrement.x < 0)){
+        mIncrement.x = -mIncrement.x;
+    }
+    mDeer.setPosition(mDeer.getPosition().x+mIncrement.x,mDeer.getPosition().y);
+}
 
 
