@@ -19,12 +19,13 @@
  */ 
 Deer::Deer(){
     mDirection = randomNumber(1,2);  //1 means the deer moves to the right, 2 means the deer moves to the left
+    yIncrement = randomNumber(-1, 1);
     if(mDirection == 1){
         mTexture.loadFromFile("images/PIX_deer_upright_Rface.png");
-        mIncrement = sf::Vector2f(POS_INC, POS_INC);
+        mIncrement = sf::Vector2f(POS_INC, yIncrement);
     } else{
         mTexture.loadFromFile("images/PIX_deer_upright_Lface.png");
-        mIncrement = sf::Vector2f(NEG_INC, NEG_INC);
+        mIncrement = sf::Vector2f(NEG_INC, yIncrement);
     }
     mDeer.setTexture(mTexture);
     spriteSize = mTexture.getSize();
@@ -51,21 +52,22 @@ Deer::Deer(){
     hitText.setCharacterSize(50);
     hitText.setString("HIT!");
     mAnimation = 0;
+    mDeerHit = false;
 }
 
 
-int Deer::gameLoop(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize, bool &deerHit){
+int Deer::gameLoop(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize){
     int hitTimer = 0;
     int rand_chance = randomNumber(0, 100); //Returns a 1-100
-    if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
-        deerHit = false;    //Resets if it's been hit so that the deer is rendered again
+    if(mDeerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
+        mDeerHit = false;    //Resets if it's been hit so that the deer is rendered again
         newPosition(); //Sets a new random position for the deer
     }
-    if(!deerHit){   //Renders the deer so long as it hasn't been shot
+    if(!mDeerHit){   //Renders the deer so long as it hasn't been shot
         update(winSize);    //Function to update the deer. Thus far it only calls the moveDeer function.
         renderTarget(window);  //Function to draw deer
-        deerHit = isHit(window, score);   //Checks if deer has been hit
-        if(deerHit)
+        mDeerHit = isHit(window, score);   //Checks if deer has been hit
+        if(mDeerHit)
             hitTimer = 30;  //Sets the hit "timer" to 30 so that it will display for 30 cycles of the game loop
         score.renderScore(window);
                 //Render deer dying and display that instead if the deer gets hit
@@ -146,18 +148,34 @@ void Deer::update(sf::Vector2u& winSize){
  */
 bool Deer::moveDeer(sf::Vector2u& winSize){
     bool offScreen = false;
-    if ((mDeer.getPosition().x + (spriteSize.x/ 2) > (winSize.x*1.5)/* && mIncrement.x > 0*/)){
+    if ((mDeer.getPosition().x + (spriteSize.x/ 2) > (winSize.x*1.5) && mIncrement.x > 0)){
         mTexture.loadFromFile("images/PIX_deer_upright_Lface.png");
-        mIncrement = sf::Vector2f(NEG_INC, NEG_INC);
+        mIncrement = sf::Vector2f(NEG_INC, yIncrement);
         mDirection = 2;
         offScreen = true;
-    }else if((mDeer.getPosition().x - (spriteSize.x / 2) < (winSize.x*-0.5)/* && mIncrement.x < 0*/)){
+    }else if((mDeer.getPosition().x - (spriteSize.x / 2) < (winSize.x*-0.5) && mIncrement.x < 0)){
         mTexture.loadFromFile("images/PIX_deer_upright_Rface.png");
-        mIncrement = sf::Vector2f(POS_INC, POS_INC);
+        mIncrement = sf::Vector2f(POS_INC, yIncrement);
         mDirection = 1;
         offScreen = true;
+    }else if((mDeer.getPosition().y - (spriteSize.y / 2) < (winSize.y*-0.3) && mIncrement.y < 0)){
+        yIncrement = 1;
+        if(mDirection == 1){
+            mIncrement = sf::Vector2f(POS_INC, yIncrement);
+        }else{
+            mIncrement = sf::Vector2f(NEG_INC, yIncrement);
+        }
+        // offScreen = true;
+    }else if((mDeer.getPosition().y + (spriteSize.y/ 2) > (winSize.y*1.7) && mIncrement.y > 0)){
+        yIncrement = -1;
+        if(mDirection == 1){
+            mIncrement = sf::Vector2f(POS_INC, yIncrement);
+        }else{
+            mIncrement = sf::Vector2f(NEG_INC, yIncrement);
+        }
+        // offScreen = true;
     }
-    mDeer.setPosition(mDeer.getPosition().x+mIncrement.x,mDeer.getPosition().y);
+    mDeer.setPosition(mDeer.getPosition().x+mIncrement.x,mDeer.getPosition().y+mIncrement.y);
     if(mDirection == 1){
         mBodyTarget.setPosition(mDeer.getPosition().x-BODY_X_OFF, mDeer.getPosition().y+BODY_Y_OFF);
         mHeadTarget.setPosition(mDeer.getPosition().x+HEAD_R_X_OFF, mDeer.getPosition().y-HEAD_Y_OFF);
@@ -178,22 +196,25 @@ void Deer::changeDirection(bool random){
         int changeDirection = randomNumber(1,500);   //Gives a 0.2% chance that the deer will change direction
         if(changeDirection == 500){
             mDirection = randomNumber(1,2);  //50/50 chance on which direction the deer goes. 1 means the deer moves to the right, 2 means the deer moves to the left
+            yIncrement = randomNumber(-1, 1);
             if(mDirection == 1){
                 mTexture.loadFromFile("images/PIX_deer_upright_Rface.png");
-                mIncrement = sf::Vector2f(POS_INC, POS_INC);
+                mIncrement = sf::Vector2f(POS_INC, yIncrement);
             } else{
                 mTexture.loadFromFile("images/PIX_deer_upright_Lface.png");
-                mIncrement = sf::Vector2f(NEG_INC, NEG_INC);
+                mIncrement = sf::Vector2f(NEG_INC, yIncrement);
             }
         }
     }else if(!random){  //If the change should not be random, like if the deer goes off screen, then it changes the direction based on mDirection
         if(mDirection == 2){    //The deer was heading to the left, but now it is heading to the right
                 mTexture.loadFromFile("images/PIX_deer_upright_Rface.png");
-                mIncrement = sf::Vector2f(POS_INC, POS_INC);
+                yIncrement = randomNumber(-1, 1);
+                mIncrement = sf::Vector2f(POS_INC, yIncrement);
                 mDirection = 1;
             } else{             //The deer was heading to the right, but now it is heading to the left
                 mTexture.loadFromFile("images/PIX_deer_upright_Lface.png");
-                mIncrement = sf::Vector2f(NEG_INC, NEG_INC);
+                yIncrement = randomNumber(-1, 1);
+                mIncrement = sf::Vector2f(NEG_INC, yIncrement);
                 mDirection = 2;
             }
     }

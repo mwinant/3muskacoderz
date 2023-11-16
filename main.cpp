@@ -29,7 +29,7 @@ int main()
     Music music;
     SoundBuffer buffer;
     Sound sound(buffer);
-    Deer deer, deer1;
+    Deer deer, deer1, deer2, deer3, deer4;
     Timer timer;
     Score score;
 
@@ -54,7 +54,11 @@ int main()
     //play music
     music.mMusic.play();
 
-    bool deerHit = false; //Checks if the deer has been hit. Temporary
+    // bool deerHit = false, //Checks if the deer has been hit. Temporary
+    //     deerHit1 = false,
+    //     deerHit2 = false,
+    //     deerHit3 = false,
+    //     deerHit4 = false;
     while (window.isOpen())
     {
         sf::Event event;
@@ -103,15 +107,19 @@ int main()
             if(hitTimer > 0){   //Displays the "HIT!" text so long as the hit timer is above 0.
                 deer.renderHitText(window);
                 hitTimer--;
-                deer.gameLoop(window, score, winSize, deerHit);
-                deer1.gameLoop(window, score, winSize, deerHit);
+                deer.gameLoop(window, score, winSize);
+                deer1.gameLoop(window, score, winSize);
+                deer2.gameLoop(window, score, winSize);
+                deer3.gameLoop(window, score, winSize);
+                deer4.gameLoop(window, score, winSize);
             } 
             else{   //Renders Deer
-                hitTimer = deer.gameLoop(window, score, winSize, deerHit);
-                if(hitTimer==0)
-                    hitTimer = deer1.gameLoop(window, score, winSize, deerHit);
-                else
-                    deer1.gameLoop(window, score, winSize, deerHit);
+                hitTimer = deer.gameLoop(window, score, winSize);
+                hitTimer = deer1.gameLoop(window, score, winSize);
+                hitTimer = deer2.gameLoop(window, score, winSize);
+                hitTimer = deer3.gameLoop(window, score, winSize);
+                hitTimer = deer4.gameLoop(window, score, winSize);
+                
             }
             
             //CURRENTLY WORKING TO SEE IF I CAN PUT ALL OF THE RENDERING OF DEER INTO A FUNCTION. DO NOT KNOW IF IT WILL WORK YET
