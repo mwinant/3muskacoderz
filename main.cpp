@@ -45,6 +45,9 @@ int main()
     countdownString = convert.str();
     timer.timerText.setString(countdownString);
 
+    //Allows the "HIT!" text to stay on screen for a consistent amount of time
+    int hitTimer = 0;
+
     // hides system mouse cursor
     window.setMouseCursorVisible(false);
     
@@ -98,6 +101,10 @@ int main()
             gameloopscreen.draw(window);
             window.draw(timer.timerText);
             score.renderScore(window);  //Calls function from class to render the score
+            if(hitTimer > 0){
+                deer.renderHitText(window);
+                hitTimer--;
+            }
             int rand_chance = randomNumber(0, 100); //Returns a 1-100
             if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
                 deerHit = false;    //Resets if it's been hit so that the deer is rendered again
@@ -107,6 +114,8 @@ int main()
                 deer.update(winSize);    //Function to update the deer. Thus far it only calls the moveDeer function.
                 deer.renderTarget(window);  //Function to draw deer
                 deerHit = deer.isHit(window, score);   //Checks if deer has been hit
+                if(deerHit)
+                    hitTimer = 15;
                 score.renderScore(window);
                 //Render deer dying and display that instead if the deer gets hit
             }

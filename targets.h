@@ -30,6 +30,7 @@ public:
 
     // void handleInput();
     void renderTarget(sf::RenderWindow& window);
+    void renderHitText(sf::RenderWindow& window);
     bool moveDeer(sf::Vector2u& winSize);
     bool isHit(sf::RenderWindow& window, Score &score);
     void newPosition();
@@ -49,6 +50,8 @@ private:
         mAnimation,
         mDirection; //1 means the deer moves to the right, 2 means the deer moves to the left
     sf::Vector2f mIncrement;
+    sf::Text hitText;
+    sf::Font hitFont;
 };
 
 

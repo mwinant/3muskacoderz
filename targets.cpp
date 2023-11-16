@@ -45,7 +45,11 @@ Deer::Deer(){
         mBodyTarget.setPosition(mDeer.getPosition().x+BODY_X_OFF, mDeer.getPosition().y+BODY_Y_OFF);
         mHeadTarget.setPosition(mDeer.getPosition().x-HEAD_L_X_OFF, mDeer.getPosition().y-HEAD_Y_OFF);
     }
-    
+    hitFont.loadFromFile("images/scoreFont.ttf");
+    hitText.setFont(hitFont);
+    hitText.setPosition(300,200);
+    hitText.setCharacterSize(50);
+    hitText.setString("HIT!");
     mAnimation = 0;
 }
 
@@ -63,13 +67,15 @@ bool Deer::isHit(sf::RenderWindow&window, Score &score){
         sf::FloatRect bodyBounds = mBodyTarget.getGlobalBounds();
         if (bodyBounds.contains(sf::Vector2f(mousePosition))) {
             score.updateScore(1);
-            // std::cout<<"Body shot, 1 point\n";
+            hitText.setPosition(mDeer.getPosition().x, mDeer.getPosition().y-50);
+            renderHitText(window);
             return true;
         }
         sf::FloatRect headBounds = mHeadTarget.getGlobalBounds();
         if (headBounds.contains(sf::Vector2f(mousePosition))) {
             score.updateScore(3);
-            // std::cout<<"Head shot, 3 points\n";
+            hitText.setPosition(mDeer.getPosition().x, mDeer.getPosition().y-50);
+            renderHitText(window);
             return true;
         }
     }
@@ -95,6 +101,11 @@ void Deer::renderTarget(sf::RenderWindow& window){
     window.draw(mDeer);
     window.draw(mBodyTarget);
     window.draw(mHeadTarget);
+}
+
+
+void Deer::renderHitText(sf::RenderWindow& window){
+    window.draw(hitText);
 }
 
 
