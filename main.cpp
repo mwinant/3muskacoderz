@@ -22,6 +22,8 @@ int main()
     GameLoopScreen gameloopscreen;
     GameOverScreen gameOverScreen;
     titlescreen.active=true; //sets titlescreen as first screen
+    gameloopscreen.active=false;
+    gameOverScreen.active=false;
     
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Elk Hunter");
     sf::Vector2u winSize = window.getSize();

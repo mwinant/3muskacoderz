@@ -17,7 +17,7 @@
 class Screen //helperClass
 {
 public:
-    bool active = false;
+    bool active;
     friend class Background;
     friend class CoverArt;
     friend class Reticle;
