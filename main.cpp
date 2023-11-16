@@ -8,6 +8,8 @@
 #include "sound.h"
 #include "targets.h"
 #include "extra.h"
+#include "screen.h"
+#include "clock.h"
 #include <iostream>
 #include <ctime>
 #include <sstream>
@@ -15,35 +17,27 @@
 
 int main()
 {
-
-    sf::RenderWindow window(sf::VideoMode(640, 480), "Big Buck Hunter");
-    Background background;
+    TitleScreen titlescreen;
+    GameLoopScreen gameloopscreen;
+    GameOverScreen gameOverScreen;
+    titlescreen.active=true; //sets titlescreen as first screen
+    
+    sf::RenderWindow window(sf::VideoMode(640, 480), "Big Elk Hunter");
     Reticle reticle;
     Music music;
-    CoverArt coverArt;
-    GameOver gameOver;
     SoundBuffer buffer;
     Sound sound(buffer);
     Deer deer;
+    Timer timer;
 
-    //GAME CLOCK AND TIMER
-    sf::Clock clock;
-    int countdown = 30;
-
+    //FOR TIMER
+    int countdown;
     //CONVERT COUNTDOWN TO A STRING
     std::string countdownString;
     std::ostringstream convert;
     convert << countdown;
     countdownString = convert.str();
-
-    //LOAD TIMER FONT AND TEXT
-    sf::Text timerText;
-    sf::Font timerFont;
-    timerFont.loadFromFile("images/timerfont.ttf");
-    timerText.setFont(timerFont);
-    timerText.setString(countdownString);
-    timerText.setPosition(600,5); //TODO fix
-    timerText.setCharacterSize(40);
+    timer.timerText.setString(countdownString);
 
     // hides system mouse cursor
     window.setMouseCursorVisible(false);
@@ -60,12 +54,15 @@ int main()
             if (event.type == sf::Event::Closed)
             window.close();
 
-            // if (event.type == sf::Event::KeyPressed
-            //     && event.key.code == sf::Keyboard::Enter){
-            //     //close cover screen and start game
-            // }
+            if (event.type == sf::Event::KeyPressed
+                && event.key.code == sf::Keyboard::Enter){
+                //close cover screen and start game
+                gameloopscreen.active=true;
+                titlescreen.active=false;
+                countdown=30;
+            }
             // Mouse button pressed: play the sound
-            else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sound.mSound.play();
             }
         }
@@ -73,44 +70,41 @@ int main()
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
         reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
 
-        //TIMER - 30 SECONDS
-        int timer = clock.getElapsedTime().asSeconds();
-
-        if (timer > 0) {
+        //CONTROLS TIMER
+        int time=timer.clock.getElapsedTime().asSeconds();
+        if (time > 0) {
             countdown--;
-            timerText.setString(std::to_string(countdown));
-            clock.restart();
+            timer.timerText.setString(std::to_string(countdown));
+            timer.clock.restart();
         }
-        // if(timer==0){
-        //     //go to gameover screen
-        // }
+        //CHANGES SCREEN FROM GAMELOOP TO GAMEOVER ONCE THE TIMER REACHES ZERO
+        if(countdown<=-1){
+            gameloopscreen.active=false;
+            gameOverScreen.active=true;   
+        } 
 
+        //CONTROLS TITLE, GAMELOOP, AND GAMEOVER SCREENS
         window.clear();
-        window.draw(background.mSprite);
-        window.draw(coverArt.deerSprite);
-        window.draw(coverArt.text);
-        window.draw(coverArt.text2);
-        window.draw(reticle.mSprite);
-
-        //Game Over Image
-        // window.draw(gameOver.sprite);
-        // window.draw(gameOver.sprite2);
-        // window.draw(gameOver.text);
-
-
-        int rand_chance = randomNumber(0, 100); //Returns a 1-100
-        if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
-            deerHit = false;    //Resets if it's been hit so that the deer is rendered again
-            deer.newPosition(); //Sets a new random position for the deer
+        if(titlescreen.active){
+            titlescreen.draw(window);
         }
-        if(!deerHit){   //Renders the deer so long as it hasn't been shot
-            deer.renderTarget(window);  //Function to draw deer
-            deerHit = deer.isHit(window);   //Checks if deer has been hit
-            //Render deer dying and display that instead if the deer gets hit
+        else if(gameloopscreen.active){
+            gameloopscreen.draw(window);
+            window.draw(timer.timerText);
+            int rand_chance = randomNumber(0, 100); //Returns a 1-100
+            if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
+                deerHit = false;    //Resets if it's been hit so that the deer is rendered again
+                deer.newPosition(); //Sets a new random position for the deer
+            }
+            if(!deerHit){   //Renders the deer so long as it hasn't been shot
+                deer.renderTarget(window);  //Function to draw deer
+                deerHit = deer.isHit(window);   //Checks if deer has been hit
+                //Render deer dying and display that instead if the deer gets hit
+            }
         }
-        
-        window.draw(timerText);
+        else if(gameOverScreen.active) gameOverScreen.draw(window);
         window.display();
+
     }
 
     return 0;
