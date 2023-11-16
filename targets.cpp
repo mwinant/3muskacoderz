@@ -53,6 +53,27 @@ Deer::Deer(){
     mAnimation = 0;
 }
 
+
+int Deer::gameLoop(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize, bool &deerHit){
+    int hitTimer = 0;
+    int rand_chance = randomNumber(0, 100); //Returns a 1-100
+    if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
+        deerHit = false;    //Resets if it's been hit so that the deer is rendered again
+        newPosition(); //Sets a new random position for the deer
+    }
+    if(!deerHit){   //Renders the deer so long as it hasn't been shot
+        update(winSize);    //Function to update the deer. Thus far it only calls the moveDeer function.
+        renderTarget(window);  //Function to draw deer
+        deerHit = isHit(window, score);   //Checks if deer has been hit
+        if(deerHit)
+            hitTimer = 30;  //Sets the hit "timer" to 30 so that it will display for 30 cycles of the game loop
+        score.renderScore(window);
+                //Render deer dying and display that instead if the deer gets hit
+    }
+    return hitTimer;
+}
+
+
 /**
  * @brief Check to see if the deer has been hit or not
  * 

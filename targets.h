@@ -28,7 +28,7 @@ public:
     Deer();
     ~Deer(){};
 
-    // void handleInput();
+    int gameLoop(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize, bool &deerHit);
     void renderTarget(sf::RenderWindow& window);
     void renderHitText(sf::RenderWindow& window);
     bool moveDeer(sf::Vector2u& winSize);
