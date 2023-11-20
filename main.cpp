@@ -8,6 +8,7 @@
 #include "sound.h"
 #include "targets.h"
 #include "extra.h"
+#include "score.h"
 #include <iostream>
 #include <ctime>
 #include <sstream>
@@ -25,6 +26,7 @@ int main()
     SoundBuffer buffer;
     Sound sound(buffer);
     Deer deer;
+    Score score;
 
     //GAME CLOCK AND TIMER
     sf::Clock clock;
@@ -51,6 +53,9 @@ int main()
     //play music
     music.mMusic.play();
 
+    //initialize score
+    int gameScore = 0;
+
     bool deerHit = false; //Checks if the deer has been hit. Temporary
     while (window.isOpen())
     {
@@ -60,10 +65,10 @@ int main()
             if (event.type == sf::Event::Closed)
             window.close();
 
-            // if (event.type == sf::Event::KeyPressed
-            //     && event.key.code == sf::Keyboard::Enter){
-            //     //close cover screen and start game
-            // }
+            if (event.type == sf::Event::KeyPressed
+                && event.key.code == sf::Keyboard::Enter){
+                //close cover screen and start game
+            }
             // Mouse button pressed: play the sound
             else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sound.mSound.play();
@@ -102,13 +107,15 @@ int main()
         if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
             deerHit = false;    //Resets if it's been hit so that the deer is rendered again
             deer.newPosition(); //Sets a new random position for the deer
+            gameScore += 10;
         }
         if(!deerHit){   //Renders the deer so long as it hasn't been shot
             deer.renderTarget(window);  //Function to draw deer
             deerHit = deer.isHit(window);   //Checks if deer has been hit
             //Render deer dying and display that instead if the deer gets hit
         }
-        
+        score.mScore.setString("Score: " + std::to_string(gameScore));
+        window.draw(score.mScore);
         window.draw(timerText);
         window.display();
     }
