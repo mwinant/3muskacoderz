@@ -8,6 +8,8 @@
 #include "sound.h"
 #include "targets.h"
 #include "extra.h"
+#include "screen.h"
+#include "clock.h"
 #include "score.h"
 #include <iostream>
 #include <ctime>
@@ -16,36 +18,37 @@
 
 int main()
 {
-
-    sf::RenderWindow window(sf::VideoMode(640, 480), "Big Buck Hunter");
-    Background background;
+    TitleScreen titlescreen;
+    GameLoopScreen gameloopscreen;
+    GameOverScreen gameOverScreen;
+    titlescreen.active=true; //sets titlescreen as first screen
+    gameloopscreen.active=false;
+    gameOverScreen.active=false;
+    
+    sf::RenderWindow window(sf::VideoMode(640, 480), "Big Elk Hunter");
+    sf::Vector2u winSize = window.getSize();
     Reticle reticle;
     Music music;
-    CoverArt coverArt;
-    GameOver gameOver;
     SoundBuffer buffer;
     Sound sound(buffer);
-    Deer deer;
+    Deer deer, deer1, deer2, deer3, deer4;
+    Timer timer;
     Score score;
 
-    //GAME CLOCK AND TIMER
-    sf::Clock clock;
-    int countdown = 30;
+    //Sets framerate to 60fps
+    window.setFramerateLimit(60);
 
+    //FOR TIMER
+    int countdown;
     //CONVERT COUNTDOWN TO A STRING
     std::string countdownString;
     std::ostringstream convert;
     convert << countdown;
     countdownString = convert.str();
+    timer.timerText.setString(countdownString);
 
-    //LOAD TIMER FONT AND TEXT
-    sf::Text timerText;
-    sf::Font timerFont;
-    timerFont.loadFromFile("images/timerfont.ttf");
-    timerText.setFont(timerFont);
-    timerText.setString(countdownString);
-    timerText.setPosition(600,5); //TODO fix
-    timerText.setCharacterSize(40);
+    //Allows the "HIT!" text to stay on screen for a consistent amount of time
+    int hitTimer = 0;
 
     // hides system mouse cursor
     window.setMouseCursorVisible(false);
@@ -53,10 +56,6 @@ int main()
     //play music
     music.mMusic.play();
 
-    //initialize score
-    int gameScore = 0;
-
-    bool deerHit = false; //Checks if the deer has been hit. Temporary
     while (window.isOpen())
     {
         sf::Event event;
@@ -68,56 +67,73 @@ int main()
             if (event.type == sf::Event::KeyPressed
                 && event.key.code == sf::Keyboard::Enter){
                 //close cover screen and start game
+                gameloopscreen.active=true;
+                titlescreen.active=false;
+                countdown=30;
             }
             // Mouse button pressed: play the sound
-            else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sound.mSound.play();
             }
         }
         
-        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-        reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
+        
 
-        //TIMER - 30 SECONDS
-        int timer = clock.getElapsedTime().asSeconds();
-
-        if (timer > 0) {
+        //CONTROLS TIMER
+        int time=timer.clock.getElapsedTime().asSeconds();
+        if (time > 0) {
             countdown--;
-            timerText.setString(std::to_string(countdown));
-            clock.restart();
+            timer.timerText.setString(std::to_string(countdown));
+            timer.clock.restart();
         }
-        // if(timer==0){
-        //     //go to gameover screen
-        // }
+        //CHANGES SCREEN FROM GAMELOOP TO GAMEOVER ONCE THE TIMER REACHES ZERO
+        if(countdown<=-1){
+            gameloopscreen.active=false;
+            gameOverScreen.active=true;   
+        } 
 
+        //CONTROLS TITLE, GAMELOOP, AND GAMEOVER SCREENS
         window.clear();
-        window.draw(background.mSprite);
-        window.draw(coverArt.deerSprite);
-        window.draw(coverArt.text);
-        window.draw(coverArt.text2);
-        window.draw(reticle.mSprite);
-
-        //Game Over Image
-        // window.draw(gameOver.sprite);
-        // window.draw(gameOver.sprite2);
-        // window.draw(gameOver.text);
-
-
-        int rand_chance = randomNumber(0, 100); //Returns a 1-100
-        if(deerHit && rand_chance <= 1){    //on a 1/100 chance it sets the deer to a new position
-            deerHit = false;    //Resets if it's been hit so that the deer is rendered again
-            deer.newPosition(); //Sets a new random position for the deer
-            gameScore += 10;
+        if(titlescreen.active){
+            titlescreen.draw(window);
         }
-        if(!deerHit){   //Renders the deer so long as it hasn't been shot
-            deer.renderTarget(window);  //Function to draw deer
-            deerHit = deer.isHit(window);   //Checks if deer has been hit
-            //Render deer dying and display that instead if the deer gets hit
+        else if(gameloopscreen.active){
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                score.addShot();
+            }
+            gameloopscreen.draw(window);
+            window.draw(timer.timerText);
+            score.renderScore(window);  //Calls function from class to render the score
+            if(hitTimer > 0){   //Displays the "HIT!" text so long as the hit timer is above 0.
+                deer.renderHitText(window);
+                hitTimer--;
+                deer.gameLoop(window, score, winSize);
+                deer1.gameLoop(window, score, winSize);
+                deer2.gameLoop(window, score, winSize);
+                deer3.gameLoop(window, score, winSize);
+                deer4.gameLoop(window, score, winSize);
+            } 
+            else{   //Renders Deer
+                hitTimer = deer.gameLoop(window, score, winSize);
+                hitTimer = deer1.gameLoop(window, score, winSize);
+                hitTimer = deer2.gameLoop(window, score, winSize);
+                hitTimer = deer3.gameLoop(window, score, winSize);
+                hitTimer = deer4.gameLoop(window, score, winSize);
+            }
+
+            //Takes position of mouse and draws the reticle over it.
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+            reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
+            reticle.renderReticle(window);
         }
-        score.mScore.setString("Score: " + std::to_string(gameScore));
-        window.draw(score.mScore);
-        window.draw(timerText);
+        else if(gameOverScreen.active){
+            gameOverScreen.draw(window);
+            score.changePosition(220, 220);
+            score.changeSize(70);
+            score.renderEndScore(window);
+        } 
         window.display();
+
     }
 
     return 0;

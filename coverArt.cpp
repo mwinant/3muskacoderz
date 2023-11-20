@@ -18,7 +18,7 @@ CoverArt::CoverArt(){
 
     font2.loadFromFile("images/westernFont.ttf");
     text2.setFont(font2);
-    text2.setString("Big Buck Hunter");
+    text2.setString("Big Elk Hunter");
     text2.setCharacterSize(70);
     text2.setOutlineThickness(2);
     text2.setOutlineColor(sf::Color::White);
