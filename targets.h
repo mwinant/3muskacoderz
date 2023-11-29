@@ -37,6 +37,7 @@ public:
     void update(sf::Vector2u& winSize);
     void changeDirection(bool random);
     void updateAnimation();
+    // void hitMarker(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize);
     
 
 private:

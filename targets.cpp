@@ -234,3 +234,12 @@ void Deer::updateAnimation(){
         mAnimation = 0;
     }
 }
+
+
+// void Deer::hitMarker(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize){
+//     if(hitTimer > 0){
+//         renderHitText(window);
+//         hitTimer--;
+//         gameLoop(window, score, winSize);
+//     }
+// }
