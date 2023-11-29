@@ -1,3 +1,13 @@
+/**
+ * @file main.cpp
+ * @author Mikayla, Justin, Silas
+ * @brief 
+ * @version 0.1
+ * @date 2023-11-29
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include <SFML/Graphics.hpp>
 #include "background.h"
 #include "coverArt.h"
