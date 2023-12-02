@@ -11,6 +11,8 @@
 #include "screen.h"
 #include "clock.h"
 #include "score.h"
+#include "highScore.h"
+#include "highScoreManager.h"
 #include <iostream>
 #include <ctime>
 #include <sstream>
@@ -21,9 +23,11 @@ int main()
     TitleScreen titlescreen;
     GameLoopScreen gameloopscreen;
     GameOverScreen gameOverScreen;
+    gameOverGetNameScreen gameOverGetNameScreen;
     titlescreen.active=true; //sets titlescreen as first screen
     gameloopscreen.active=false;
     gameOverScreen.active=false;
+    gameOverGetNameScreen.active=false;
     
     sf::RenderWindow window(sf::VideoMode(640, 480), "Big Elk Hunter");
     sf::Vector2u winSize = window.getSize();
@@ -34,6 +38,9 @@ int main()
     Deer deer, deer1, deer2, deer3, deer4;
     Timer timer;
     Score score;
+    HighScoreManager highScoreManager;
+    bool highScoresUpdated = false;
+
 
     //Sets framerate to 60fps
     window.setFramerateLimit(60);
@@ -59,6 +66,7 @@ int main()
     
     //play music
     music.mMusic.play();
+    std::string playerName;
 
     while (window.isOpen())
     {
@@ -66,18 +74,45 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
-            window.close();
+                window.close();
 
-            if (event.type == sf::Event::KeyPressed
-                && event.key.code == sf::Keyboard::Enter){
-                //close cover screen and start game
-                gameloopscreen.active=true;
-                titlescreen.active=false;
-                countdown=30;
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+                if (titlescreen.active) {
+                    // Close cover screen and start game
+                    gameloopscreen.active = true;
+                    titlescreen.active = false;
+                    countdown = 30;
+                } 
+                else if (gameOverGetNameScreen.active) {
+                    // Switch to the game over screen
+                    gameOverScreen.active = true;
+                    gameOverGetNameScreen.active = false;
+                }
             }
+
             // Mouse button pressed: play the sound
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sound.mSound.play();
+            }
+
+            // Get user input for name
+            if (event.type == sf::Event::TextEntered && gameOverGetNameScreen.active) {
+                
+                // if entered key is pressed, go to game over screen
+                if (event.text.unicode == 13) {  
+                    gameOverScreen.active = true;
+                    gameOverGetNameScreen.active = false;
+                }
+
+                // else if a normal key that's not back space is pressed, assign it to player name
+                else if (event.text.unicode < 128 && event.text.unicode != 8) {
+                    playerName += static_cast<char>(event.text.unicode);
+                }
+
+                // else if backspace is pressed, remove last character
+                else if (event.text.unicode == 8 && !playerName.empty()) {
+                    playerName.pop_back(); 
+                }
             }
         }
         
@@ -91,11 +126,11 @@ int main()
             timer.clock.restart();
         }
         //CHANGES SCREEN FROM GAMELOOP TO GAMEOVER ONCE THE TIMER REACHES ZERO
-        if(countdown<=-1){
+        if(countdown<=-1 &&  gameloopscreen.active == true){
             gameloopscreen.active=false;
-            gameOverScreen.active=true;   
+            gameOverGetNameScreen.active=true;
+            // gameOverScreen.active=true;   
         } 
-
         //CONTROLS TITLE, GAMELOOP, AND GAMEOVER SCREENS
         window.clear();
         if(titlescreen.active){
@@ -169,15 +204,56 @@ int main()
             reticle.mSprite.setPosition(static_cast<sf::Vector2f>(mousePosition));
             reticle.renderReticle(window);
         }
-        else if(gameOverScreen.active){
+        else if (gameOverGetNameScreen.active) {
+            // Draw the rest of the gameOverGetNameScreen
+            window.clear();
+            gameOverGetNameScreen.draw(window);
+            gameOverGetNameScreen.getName.namePromptText.setString("Enter your name: " + playerName);
+            window.display();
+        }
+        else if (gameOverScreen.active) {
+            window.clear();
             gameOverScreen.draw(window);
-            score.changePosition(220, 220);
+            score.changePosition(400, 150);
             score.changeSize(70);
             score.renderEndScore(window);
-        } 
+
+            // Update high scores only once
+            if (!highScoresUpdated) {
+                HighScore newHighScore(playerName, score.getScore());
+                highScoreManager.updateHighScores(newHighScore);
+                highScoresUpdated = true;
+            }
+
+            // Load and display high scores
+            std::vector<HighScore> loadedHighScores = highScoreManager.loadHighScores();
+
+            sf::Font font;
+            if (!font.loadFromFile("images/scoreFont.ttf")) {
+                std::cout<<"Error loading high score image\n";
+            }
+
+            sf::Text highScoresText;
+            highScoresText.setFont(font);
+            highScoresText.setCharacterSize(50);
+            highScoresText.setPosition(50, 150);
+
+            std::string highScoresString = "Top 5 High Scores:\n";
+            size_t count = 0;
+            for (const auto& score : loadedHighScores) {
+                highScoresString += score.getName() + ": " + std::to_string(score.getScore()) + "\n";
+                count++;
+                if (count >= 5) {
+                    break;
+                }
+            }
+
+            highScoresText.setString(highScoresString);
+
+            window.draw(highScoresText);
+        }
+
         window.display();
-
     }
-
     return 0;
 }

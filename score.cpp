@@ -30,21 +30,21 @@ Score::Score(){
     scoreNameText.setString("Score:");
 
     hitsText.setFont(scoreNameFont);
-    hitsText.setPosition(220, 280);
+    hitsText.setPosition(400, 225);
     hitsText.setCharacterSize(70);
     hitsText.setString("Hits:");
 
     numHitsText.setFont(scoreFont);
-    numHitsText.setPosition(360, 282);
+    numHitsText.setPosition(535, 225);
     numHitsText.setCharacterSize(70);
 
     shotsText.setFont(scoreNameFont);
-    shotsText.setPosition(220, 340);
+    shotsText.setPosition(400, 300);
     shotsText.setCharacterSize(70);
     shotsText.setString("Shots:");
 
     numShotsText.setFont(scoreFont);
-    numShotsText.setPosition(360, 342);
+    numShotsText.setPosition(535, 300);
     numShotsText.setCharacterSize(70);
 
 }
@@ -109,4 +109,8 @@ void Score::changeSize(int size){
 void Score::addShot(){
     shots++;
     numShotsText.setString(std::to_string(shots));
+}
+
+int Score::getScore() const{
+    return score;
 }
