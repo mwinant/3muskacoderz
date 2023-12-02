@@ -13,6 +13,8 @@
 #include <ctime>
 #include <sstream>
 #include <cstdlib>
+#include "getName.h"
+
 
 class Screen //helperClass
 {
@@ -68,4 +70,24 @@ public:
         window.draw(gameOver.sprite2);
         window.draw(gameOver.text);
     }
+};
+
+class gameOverGetNameScreen : public Screen 
+{
+public:
+    // Screen to get the player's name
+    GetName getName;
+    void draw(sf::RenderWindow &window)
+        {   
+            window.draw(getName.sprite);
+            window.draw(getName.sprite2);
+            window.draw(getName.text);
+        
+            // Draw the name input screen
+            window.draw(getName.sprite);
+            window.draw(getName.sprite2);
+            window.draw(getName.text);
+            window.draw(getName.namePromptText);
+            window.draw(getName.playerNameText);
+        }
 };
