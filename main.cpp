@@ -55,7 +55,11 @@ int main()
     timer.timerText.setString(countdownString);
 
     //Allows the "HIT!" text to stay on screen for a consistent amount of time
-    int hitTimer = 0;
+    int hitTimer = 0,
+        hitTimer1 = 0,
+        hitTimer2 = 0,
+        hitTimer3 = 0,
+        hitTimer4 = 0;
 
     // hides system mouse cursor
     window.setMouseCursorVisible(false);
@@ -139,22 +143,61 @@ int main()
             gameloopscreen.draw(window);
             window.draw(timer.timerText);
             score.renderScore(window);  //Calls function from class to render the score
+
+            // deer.hitMarker(window, score, winSize);
+            // deer1.hitMarker(window, score, winSize);
+            // deer2.hitMarker(window, score, winSize);
+            // deer3.hitMarker(window, score, winSize);
+            // deer4.hitMarker(window, score, winSize);
+
             if(hitTimer > 0){   //Displays the "HIT!" text so long as the hit timer is above 0.
                 deer.renderHitText(window);
                 hitTimer--;
                 deer.gameLoop(window, score, winSize);
-                deer1.gameLoop(window, score, winSize);
-                deer2.gameLoop(window, score, winSize);
-                deer3.gameLoop(window, score, winSize);
-                deer4.gameLoop(window, score, winSize);
-            } 
-            else{   //Renders Deer
+            }else{  //Renders Deer
                 hitTimer = deer.gameLoop(window, score, winSize);
-                hitTimer = deer1.gameLoop(window, score, winSize);
-                hitTimer = deer2.gameLoop(window, score, winSize);
-                hitTimer = deer3.gameLoop(window, score, winSize);
-                hitTimer = deer4.gameLoop(window, score, winSize);
+            }   
+            if(hitTimer1 > 0){   //Displays the "HIT!" text so long as the hit timer is above 0.
+                deer1.renderHitText(window);
+                hitTimer1--;
+                deer1.gameLoop(window, score, winSize);
+            }else{  //Renders Deer
+                hitTimer1 = deer1.gameLoop(window, score, winSize);
             }
+            if(hitTimer2 > 0){   //Displays the "HIT!" text so long as the hit timer is above 0.
+                deer2.renderHitText(window);
+                hitTimer2--;
+                deer2.gameLoop(window, score, winSize);
+            }else{  //Renders Deer
+                hitTimer2 = deer2.gameLoop(window, score, winSize);
+            }   
+            if(hitTimer3 > 0){   //Displays the "HIT!" text so long as the hit timer is above 0.
+                deer3.renderHitText(window);
+                hitTimer3--;
+                deer3.gameLoop(window, score, winSize);
+            }else{  //Renders Deer
+                hitTimer3 = deer3.gameLoop(window, score, winSize);
+            }
+            if(hitTimer4 > 0){   //Displays the "HIT!" text so long as the hit timer is above 0.
+                deer4.renderHitText(window);
+                hitTimer4--;
+                deer4.gameLoop(window, score, winSize);
+            }else{  //Renders Deer
+                hitTimer4 = deer4.gameLoop(window, score, winSize);
+            }
+            
+            
+            // deer1.gameLoop(window, score, winSize);
+            //     deer2.gameLoop(window, score, winSize);
+            //     deer3.gameLoop(window, score, winSize);
+            //     deer4.gameLoop(window, score, winSize);
+            // else{   //Renders Deer
+                
+            //     hitTimer1 = deer1.gameLoop(window, score, winSize);
+            //     hitTimer2 = deer2.gameLoop(window, score, winSize);
+            //     hitTimer3 = deer3.gameLoop(window, score, winSize);
+            //     hitTimer4 = deer4.gameLoop(window, score, winSize);
+            // }
 
             //Takes position of mouse and draws the reticle over it.
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
