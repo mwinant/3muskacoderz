@@ -24,6 +24,7 @@ public:
     void changePosition(int x, int y);
     void changeSize(int size);
     void addShot();
+    int getScore() const;
     
 private:
     sf::Text scoreText;
