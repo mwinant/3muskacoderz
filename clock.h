@@ -1,3 +1,13 @@
+/**
+ * @file clock.h
+ * @author Mikayla Winant
+ * @brief 
+ * @version 0.1
+ * @date 2023-11-29
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef TIMER_H
 #define TIMER_H
 
@@ -15,11 +25,6 @@ public:
     sf::Clock clock;
     sf::Text timerText;
     sf::Font timerFont;
-
-//    std::string countdownString;
-//    std::ostringstream convert;
-
-    //int countdown = 30;
 
 };
 

@@ -1,3 +1,13 @@
+/**
+ * @file clock.cpp
+ * @author Mikayla Winant
+ * @brief 
+ * @version 0.1
+ * @date 2023-11-29
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include "clock.h"
 
 Timer::Timer(){
@@ -5,7 +15,5 @@ Timer::Timer(){
     timerText.setFont(timerFont);
     timerText.setPosition(600,5); 
     timerText.setCharacterSize(40);
-
-    // timerText.setString(countdownString);
 
 }

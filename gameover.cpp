@@ -1,3 +1,13 @@
+/**
+ * @file gameover.cpp
+ * @author Mikayla Winant
+ * @brief 
+ * @version 0.1
+ * @date 2023-11-29
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include "gameover.h"
 #include <iostream>
 
@@ -23,8 +33,5 @@ GameOver::GameOver(){
     text.setOutlineColor(sf::Color(93,63,211));
     text.setFillColor(sf::Color::White);
     text.setPosition(95.f,25.f);
-
-
-
 
 }

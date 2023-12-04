@@ -12,3 +12,5 @@ This game is inspired by the Big Buck Hunter Aracade Game. The player's objectiv
 
 ## To Play
 After following the compiling instructions, the player will see the Title screen and be prompted to press Enter to start. Once the enter key is pressed, the 30-second timer will begin. The cursor will transform into a reticle and the player will be able to shoot as many deer as they can.
+
+<img width="641" alt="Screenshot 2023-12-03 at 10 40 38 AM" src="https://github.com/mwinant/3muskacoderz/assets/122316733/c607a31a-16ed-4452-9e7b-589bfa4a8269">
