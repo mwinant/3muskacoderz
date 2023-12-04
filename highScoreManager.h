@@ -1,7 +1,14 @@
+/**
+ * @file highScoreManager.h
+ * @author Sialas Tripp
+ * @brief  high score manager header file
+ * @date 2023-12-04
+ * 
+ */
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include "highScore.h" // Include the HighScore class definition
+#include "highScore.h" 
 
 class HighScoreManager {
 public:

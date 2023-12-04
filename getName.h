@@ -1,3 +1,10 @@
+/**
+ * @file getName.h
+ * @author Sialas Tripp
+ * @brief getName header file
+ * @date 2023-12-04
+ * 
+ */
 #ifndef GETNAME_H
 #define GETNAME_H
 #include <SFML/Graphics.hpp>

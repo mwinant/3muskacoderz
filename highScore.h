@@ -1,3 +1,10 @@
+/**
+ * @file highScore.h
+ * @author Sialas
+ * @brief high score header file
+ * @date 2023-12-04
+ * 
+ */
 #ifndef HIGHSCORE_H
 #define HIGHSCORE_H
 

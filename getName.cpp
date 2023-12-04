@@ -1,6 +1,17 @@
+/**
+ * @file getName.cpp
+ * @author Sialas
+ * @brief getName definition file
+ * @date 2023-12-04
+ * 
+ */
 #include "getName.h"
 #include <iostream>
 
+/**
+ * @brief Get Name constructor
+ * 
+ */
 GetName::GetName(){
     if(!texture.loadFromFile("images/gameOverbackground.png")){
         std::cout<<"Error loading game over background image\n";

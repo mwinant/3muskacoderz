@@ -1,3 +1,10 @@
+/**
+ * @file sound.h
+ * @author Sialas Tripp
+ * @brief sound class header file
+ * @date 2023-12-04
+ * 
+ */
 #ifndef SOUND_H
 #define SOUND_H
 #include <SFML/Graphics.hpp>
