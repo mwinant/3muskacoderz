@@ -5,7 +5,7 @@
 Reticle::Reticle(){
     mTexture.loadFromFile("images/reticle.png");
     mSprite.setTexture(mTexture);
-    mSprite.setOrigin(mSprite.getLocalBounds().width / 2, mSprite.getLocalBounds().height / 2);
+    mSprite.setOrigin(mSprite.getLocalBounds().width / 2.f, mSprite.getLocalBounds().height / 2.f);
     float scaleFactor = 0.25f; 
     mSprite.setScale(scaleFactor, scaleFactor);
     
