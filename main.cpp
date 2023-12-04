@@ -41,7 +41,6 @@ int main()
     HighScoreManager highScoreManager;
     bool highScoresUpdated = false;
 
-
     //Sets framerate to 60fps
     window.setFramerateLimit(60);
 
@@ -81,7 +80,7 @@ int main()
                     // Close cover screen and start game
                     gameloopscreen.active = true;
                     titlescreen.active = false;
-                    countdown = 10;
+                    countdown = 30;
                 } 
                 else if (gameOverGetNameScreen.active) {
                     // Switch to the game over screen
