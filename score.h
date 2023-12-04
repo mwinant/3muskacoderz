@@ -25,7 +25,7 @@ public:
     void changeSize(int size);
     void addShot();
     int getScore() const;
-    
+    int score;
 private:
     sf::Text scoreText;
     sf::Font scoreFont;
@@ -35,8 +35,8 @@ private:
     sf::Text numHitsText;
     sf::Text shotsText;
     sf::Text numShotsText;
-    int score,  //Keeps track of score
-        hits,   //Keeps track of how many hits
+    int hits,  //Keeps track of score
+               //Keeps track of how many hits
         shots;  //Keeps track of how many shots
 };
 

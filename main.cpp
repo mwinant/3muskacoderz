@@ -90,6 +90,9 @@ int main()
                 }
             }
 
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left && gameloopscreen.active) {
+                score.addShot();
+            }
             // Mouse button pressed: play the sound
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sound.mSound.play();
@@ -137,9 +140,9 @@ int main()
             titlescreen.draw(window);
         }
         else if(gameloopscreen.active){
-            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-                score.addShot();
-            }
+            // if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+            //     score.addShot();
+            // }
             gameloopscreen.draw(window);
             window.draw(timer.timerText);
             score.renderScore(window);  //Calls function from class to render the score
