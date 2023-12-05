@@ -1,10 +1,27 @@
+/**
+ * @file highScoreManager.cpp
+ * @author Sialas Tripp
+ * @brief high score manager function definition file
+ * @date 2023-12-04
+ * 
+ */
 #include "highScoreManager.h"
 
+/**
+ * @brief default high score manager constructor
+ * 
+ */
 HighScoreManager::HighScoreManager(){
     highScoreFile = "highscores.txt";
     maxHighScore = 5;
 }
 
+/**
+ * @brief uses insertion sort to sort all time high scores
+ * 
+ * @param highScores list of all top 5 high scores
+ * @return std::vector<HighScore> sorted list of high scores
+ */
 std::vector<HighScore> HighScoreManager::insertionSort(const std::vector<HighScore>& highScores){
     std::vector<HighScore> sortedHighScores = highScores;
     for (size_t i = 1; i < sortedHighScores.size(); ++i) {
@@ -22,6 +39,11 @@ std::vector<HighScore> HighScoreManager::insertionSort(const std::vector<HighSco
     return sortedHighScores;
 }
 
+/**
+ * @brief loads file with previous high scores and loads them into a vector
+ * 
+ * @return std::vector<HighScore> the sorted vector of high scores
+ */
 std::vector<HighScore> HighScoreManager::loadHighScores() {
     std::vector<HighScore> highScores;
     std::ifstream file(highScoreFile);
@@ -40,6 +62,11 @@ std::vector<HighScore> HighScoreManager::loadHighScores() {
     return insertionSort(highScores);
 }
 
+/**
+ * @brief takes a new high score and adds it to file
+ * 
+ * @param newScore the new high score made by player
+ */
 void HighScoreManager::updateHighScores(const HighScore& newScore) {
     std::vector<HighScore> highScores = loadHighScores();
 
@@ -49,7 +76,7 @@ void HighScoreManager::updateHighScores(const HighScore& newScore) {
     // Sort the high scores using the custom insertion sort
     highScores = insertionSort(highScores);
 
-    // Keep only the top N high scores
+    // Keep only the top 5 high scores
     if (highScores.size() > maxHighScore) {
         highScores.resize(maxHighScore);
     }
@@ -58,6 +85,11 @@ void HighScoreManager::updateHighScores(const HighScore& newScore) {
     saveHighScores(highScores);
 }
 
+/**
+ * @brief saves an score to high score txt file
+ * 
+ * @param highScores high score to be saved
+ */
 void HighScoreManager::saveHighScores(const std::vector<HighScore>& highScores) {
     std::ofstream file(highScoreFile);
     if (file.is_open()) {

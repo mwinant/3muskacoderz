@@ -1,7 +1,16 @@
+/**
+ * @file reticle.cpp
+ * @author Sialas Tripp
+ * @brief reticle class definition file
+ * @date 2023-12-04
+ */
 #include "reticle.h"
 #include <iostream>
 
-
+/**
+ * @brief Reticle class constructor
+ * 
+ */
 Reticle::Reticle(){
     mTexture.loadFromFile("images/reticle.png");
     mSprite.setTexture(mTexture);
