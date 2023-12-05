@@ -36,7 +36,6 @@ private:
     sf::Text shotsText;
     sf::Text numShotsText;
     int hits,  //Keeps track of score
-               //Keeps track of how many hits
         shots;  //Keeps track of how many shots
 };
 

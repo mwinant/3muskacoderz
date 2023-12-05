@@ -54,7 +54,14 @@ Deer::Deer(){
     mDeerHit = false;
 }
 
-
+/**
+ * @brief Renders each deer and acts as a mini gameloop for each individual deer
+ * 
+ * @param window Is the window they are rendered in.
+ * @param score Is the score
+ * @param winSize is the size of the window
+ * @return int returns the hitTimer which tracts how long the "HIT!" text is on the screen
+ */
 int Deer::gameLoop(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize){
     int hitTimer = 0;
     int rand_chance = randomNumber(1, 100); //Returns a 1-100
@@ -234,12 +241,3 @@ void Deer::updateAnimation(){
         mAnimation = 0;
     }
 }
-
-
-// void Deer::hitMarker(sf::RenderWindow& window, Score &score, sf::Vector2u& winSize){
-//     if(hitTimer > 0){
-//         renderHitText(window);
-//         hitTimer--;
-//         gameLoop(window, score, winSize);
-//     }
-// }
