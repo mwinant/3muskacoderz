@@ -1,7 +1,7 @@
 /**
  * @file main.cpp
  * @author Mikayla, Justin, Silas
- * @brief 
+ * @brief Main gameloop for the entire game.
  * @version 0.1
  * @date 2023-11-29
  * 

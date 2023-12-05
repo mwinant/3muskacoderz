@@ -111,6 +111,11 @@ void Score::addShot(){
     numShotsText.setString(std::to_string(shots));
 }
 
+/**
+ * @brief Gets the score
+ * 
+ * @return int returns the score
+ */
 int Score::getScore() const{
     return score;
 }
