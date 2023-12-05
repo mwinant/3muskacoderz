@@ -1,3 +1,13 @@
+/**
+ * @file coverArt.h
+ * @author Mikayla Winant
+ * @brief 
+ * @version 0.1
+ * @date 2023-11-29
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef COVERART_H
 #define COVERART_H
 #include <SFML/Graphics.hpp>
@@ -18,10 +28,6 @@ public:
 
 
 };
-
-
-
-
 
 #endif
 
